@@ -61,9 +61,7 @@ public class Body {
     	Vector2d total = Vector2d.zero;
     	for(Body b : bodies) {
     		Vector2d acc = Physics.calculateAccelerationOn(this.position, b.mass, b.position);
-    		System.out.println(acc.toString());
     		total = total.add(acc);
-    		System.out.println("total: " + total.toString());
     	}
     	return total;
     }
