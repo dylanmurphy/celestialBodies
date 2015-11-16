@@ -58,7 +58,14 @@ public class Body {
      * @return the total acceleration imparted by the given bodies on this one.
      */
     public Vector2d calculateAcceleration(List<Body> bodies) {
-        throw new edu.grinnell.celestialvisualizer.UnimplementedException("Body.calculateAcceleration");
+    	Vector2d total = Vector2d.zero;
+    	for(Body b : bodies) {
+    		Vector2d acc = Physics.calculateAccelerationOn(this.position, b.mass, b.position);
+    		System.out.println(acc.toString());
+    		total = total.add(acc);
+    		System.out.println("total: " + total.toString());
+    	}
+    	return total;
     }
     
     /**
@@ -69,6 +76,7 @@ public class Body {
      * @param acc the calculated acceleration used to update this body
      */
     public void update(double elapsedTime, Vector2d acc) {
-        throw new edu.grinnell.celestialvisualizer.UnimplementedException("Body.update");
+    	position = Physics.calculateUpdatedPosition(this.position, elapsedTime, this.velocity, acc);
+    	velocity = Physics.calculateUpdatedVelocity(this.velocity, elapsedTime, acc);
     }
 }
