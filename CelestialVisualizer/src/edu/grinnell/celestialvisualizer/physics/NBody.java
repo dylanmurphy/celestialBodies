@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import edu.grinnell.celestialvisualizer.NBodyExamples;
 import edu.grinnell.celestialvisualizer.quadtree.QuadTree;
 import edu.grinnell.celestialvisualizer.util.BoundingBox;
 import edu.grinnell.celestialvisualizer.util.Vector2d;
@@ -76,7 +77,12 @@ public class NBody {
      * @return a list of the calculated accelerations
      */
     public List<Vector2d> calculateAccelerationsByQuadTree(QuadTree qtree, BoundingBox bb, double elapsedTime) {
-        throw new edu.grinnell.celestialvisualizer.UnimplementedException("NBody.calculateAccelerationsByQuadTree");
+    	List<Vector2d> v = new ArrayList<Vector2d>();
+        for(Body b : bodies) {
+        	v.add(qtree.calculateAcceleration(b.getPosition(), bb, 1000000.0));
+        }
+        
+        return v;
     }
 
     /**
@@ -85,6 +91,16 @@ public class NBody {
      * @param elapsedTime the time step of the simulation.
      */
     public void updateWithQuadTree(double elapsedTime) {
-        throw new edu.grinnell.celestialvisualizer.UnimplementedException("NBody.updateWithQuadTree");
+    	BoundingBox bb = NBodyExamples.WORLD_BOX;
+
+    	QuadTree q = new QuadTree();
+    	for(Body b : bodies)
+    		q.insert(b.getMass(), b.getPosition(), bb);
+    	
+    	Iterator<Body> b = bodies.iterator();
+    	Iterator<Vector2d> a = calculateAccelerationsByQuadTree(q, bb, elapsedTime).iterator();
+    	while(b.hasNext() && a.hasNext()) {
+    		b.next().update(elapsedTime, a.next());
+    	}
     }
 }

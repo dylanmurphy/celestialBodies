@@ -18,7 +18,11 @@ public class EmptyNode implements Node{
 
 	@Override
 	public Node insert(double mass, Point p, BoundingBox bb) {
-		return new LeafNode;
+		return new LeafNode(mass, p);
+	}
+	
+	public boolean equals(Object o) {
+		return (o instanceof EmptyNode);
 	}
 
 }

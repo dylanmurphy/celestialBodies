@@ -17,7 +17,7 @@ public class CelestialVisualizer {
     
     /** Whether we should use our quad tree implementation or fall back to
      * the naive updating algorithm. */
-    private static final boolean USE_QTREE = false;
+    private static final boolean USE_QTREE = true;
     
     /** The NBody model that we will use for the simulation */
     private static final NBody MODEL = NBodyExamples.SOLAR_SYSTEM;
